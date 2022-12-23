@@ -12,11 +12,12 @@ add('shared_files', ['.env.local']);
 add('shared_dirs', ['var/log']);
 add('writable_dirs', ['var/cache']);
 
+set('deploy_path', '/var/www/bera-watcher');
 // Hosts
 
 host('bera.watch')
     ->set('remote_user', 'deployer')
-    ->set('deploy_path', '~/bera-watcher')
+    ->set('become', 'root')
     ->setRemoteUser('ubuntu');
 
 // Hooks

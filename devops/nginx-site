@@ -1,6 +1,6 @@
 server {
     server_name bera.watch 79.137.32.192;
-    root /root/bera-watcher/public;
+    root /ubuntu/bera-watcher/current/public;
 
     location / {
         # try to serve file directly, fallback to index.php
