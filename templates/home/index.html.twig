@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello HomeController!{% endblock %}
+
+{% block body %}
+
+    <div>
+        <h1>BERA Watcher</h1>
+        <p>
+            Un simple site pour accéder à l'historique des BERA
+        </p>
+
+        <div style="max-width: 300px">
+            {{ form(form) }}
+        </div>
+    </div>
+
+    <div>
+        Ceci est possible grâce à <a href="https://github.com/qloridant/meteofrance_bra_hist">https://github.com/qloridant/meteofrance_bra_hist</a> qui récupère les données à jour.
+    </div>
+{% endblock %}
