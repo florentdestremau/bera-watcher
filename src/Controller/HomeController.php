@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Model\Mountain;
+use App\Service\BeraFinderService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\EnumType;
@@ -14,9 +15,9 @@ use Symfony\Component\Routing\Annotation\Route;
 class HomeController extends AbstractController
 {
     #[Route('', name: 'app_home')]
-    public function index(Request $request): Response
+    public function index(Request $request, BeraFinderService $beraFinderService): Response
     {
-        $form = $this->createFormBuilder(null, ['attr' => ['target' => '_blank']])
+        $form = $this->createFormBuilder(null, ['attr' => ['target' => '_blank'], 'csrf_protection' => true])
             ->add('mountains', EnumType::class, ['class' => Mountain::class, 'choice_label' => 'value'])
             ->add('date', DateType::class, ['data' => new \DateTime()])
             ->add('lookup', SubmitType::class, ['attr' => ['class' => 'btn btn-primary']])
@@ -26,15 +27,7 @@ class HomeController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
-            $mountains = $data['mountains']->value;
-            $file = file_get_contents("https://raw.githubusercontent.com/qloridant/meteofrance_bra_hist/master/data/{$mountains}/urls_list.txt");
-            $dates = explode("\n", $file);
-            $searchdates = array_filter($dates, fn ($item) => str_starts_with($item, $data['date']->format('Ymd')));
-
-            if (count($searchdates) > 0) {
-                $hash = array_pop($searchdates);
-                $url = "https://donneespubliques.meteofrance.fr/donnees_libres/Pdf/BRA/BRA.{$mountains}.{$hash}.pdf";
-            }
+            $url = $beraFinderService->findPDfUrl($data['mountains'], $data['date']);
 
             if ($url) {
                 return $this->redirect($url);
