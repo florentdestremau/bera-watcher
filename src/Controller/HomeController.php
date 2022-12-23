@@ -17,9 +17,15 @@ class HomeController extends AbstractController
     #[Route('', name: 'app_home')]
     public function index(Request $request, BeraFinderService $beraFinderService): Response
     {
+        $defaultDate = new \DateTime();
+
+        if ($defaultDate->format('H') < 15) {
+            $defaultDate->modify('-1 day');
+        }
+
         $form = $this->createFormBuilder(null, ['attr' => ['target' => '_blank'], 'csrf_protection' => true])
             ->add('mountains', EnumType::class, ['class' => Mountain::class, 'choice_label' => 'value'])
-            ->add('date', DateType::class, ['data' => new \DateTime()])
+            ->add('date', DateType::class, ['data' => $defaultDate])
             ->add('lookup', SubmitType::class, ['attr' => ['class' => 'btn btn-primary']])
             ->getForm();
 
