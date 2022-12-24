@@ -24,9 +24,13 @@ class HomeController extends AbstractController
 
             if ($url) {
                 return $this->redirect($url);
+            } else {
+                $this->addFlash('danger', 'BERA introuvable');
+
+                return $this->redirectToRoute('app_home');
             }
         }
 
-        return $this->render('home/index.html.twig', ['form' => $form]);
+        return $this->render('home/index.html.twig', ['form' => $form, 'message' => $message ?? null]);
     }
 }

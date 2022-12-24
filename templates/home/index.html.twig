@@ -11,6 +11,13 @@
         </p>
 
         <div style="max-width: 300px">
+            {% for label, messages in app.flashes %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ label }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endfor %}
             {{ form(form) }}
         </div>
     </div>
