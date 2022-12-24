@@ -1,8 +1,8 @@
 # Installation
 
-- (PHP 8.2)[https://www.php.net/downloads.php]
-- (Composer)[https://getcomposer.org/]
-- (Symfony CLI)[https://symfony.com/download]
+- [PHP 8.2](https://www.php.net/downloads.php)
+- [Composer](https://getcomposer.org/)
+- [Symfony CLI](https://symfony.com/download)
 
 ```shell
 git clone git@github.com:florentdestremau/bera-watcher.git && cd bera-watcher
