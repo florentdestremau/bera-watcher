@@ -24,15 +24,26 @@ class Bera
     #[ORM\Column(length: 255)]
     private ?string $link = null;
 
-    public function getId(): ?int
-    {
-        return $this->id;
+    public function __construct(
+        Mountain $mountain,
+        \DateTimeInterface $date,
+        string $link,
+    ) {
+        $this->mountain = $mountain;
+        $this->date = $date;
+        $this->link = $link;
     }
 
     public function __toString(): string
     {
         return sprintf('%s - %s', $this->mountain->value, $this->date->format('Y-m-d'));
     }
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
 
     public function getMountain(): Mountain
     {

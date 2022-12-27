@@ -2,7 +2,10 @@
 
 namespace App\Command;
 
+use App\Entity\Bera;
+use App\Model\Mountain;
 use App\Service\BeraExtractorService;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -16,8 +19,10 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 )]
 class ExtractDailyBerasCommand extends Command
 {
-    public function __construct(private BeraExtractorService $beraExtractorService)
-    {
+    public function __construct(
+        private BeraExtractorService $beraExtractorService,
+        private EntityManagerInterface $entityManager,
+    ) {
         parent::__construct();
     }
 
@@ -29,9 +34,20 @@ class ExtractDailyBerasCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
-        $date = $input->getArgument('date') ? \DateTime::createFromFormat('Y-m-d', $input->getArgument('date')) : new \DateTime();
-        $this->beraExtractorService->extract($date);
+        $date = $input->getArgument('date') ? \DateTime::createFromFormat('Y-m-d', $input->getArgument('date')) :
+            new \DateTime();
+        $mapping = $this->beraExtractorService->extract($date);
 
+        foreach ($mapping as $key => $hash) {
+            $bera = new Bera(
+                Mountain::from($key),
+                $date->setTime(0, 0),
+                "https://donneespubliques.meteofrance.fr/donnees_libres/Pdf/BRA/BRA.{$key}.{$hash}.pdf"
+            );
+            $this->entityManager->persist($bera);
+            $this->entityManager->flush();
+            $output->writeln("Saved $bera");
+        }
 
         return Command::SUCCESS;
     }
