@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Model\Mountain;
 use App\Repository\BeraRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -14,8 +15,8 @@ class Bera
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $mountain = null;
+    #[ORM\Column(length: 255, enumType: 'App\Model\Mountain')]
+    private Mountain $mountain;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $date = null;
@@ -28,12 +29,17 @@ class Bera
         return $this->id;
     }
 
-    public function getMountain(): ?string
+    public function __toString(): string
+    {
+        return sprintf('%s - %s', $this->mountain->value, $this->date->format('Y-m-d'));
+    }
+
+    public function getMountain(): Mountain
     {
         return $this->mountain;
     }
 
-    public function setMountain(string $mountain): self
+    public function setMountain(Mountain $mountain): self
     {
         $this->mountain = $mountain;
 
