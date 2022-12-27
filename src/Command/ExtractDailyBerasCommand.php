@@ -4,6 +4,7 @@ namespace App\Command;
 
 use App\Entity\Bera;
 use App\Model\Mountain;
+use App\Repository\BeraRepository;
 use App\Service\BeraExtractorService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -22,6 +23,7 @@ class ExtractDailyBerasCommand extends Command
     public function __construct(
         private BeraExtractorService $beraExtractorService,
         private EntityManagerInterface $entityManager,
+        private BeraRepository $beraRepository,
     ) {
         parent::__construct();
     }
@@ -36,17 +38,19 @@ class ExtractDailyBerasCommand extends Command
         $io = new SymfonyStyle($input, $output);
         $date = $input->getArgument('date') ? \DateTime::createFromFormat('Y-m-d', $input->getArgument('date')) :
             new \DateTime();
+        $date->setTime(0, 0);
         $mapping = $this->beraExtractorService->extract($date);
 
         foreach ($mapping as $key => $hash) {
-            $bera = new Bera(
-                Mountain::from($key),
-                $date->setTime(0, 0),
-                "https://donneespubliques.meteofrance.fr/donnees_libres/Pdf/BRA/BRA.{$key}.{$hash}.pdf"
-            );
-            $this->entityManager->persist($bera);
-            $this->entityManager->flush();
-            $output->writeln("Saved $bera");
+            $mountain = Mountain::from($key);
+            $link = "https://donneespubliques.meteofrance.fr/donnees_libres/Pdf/BRA/BRA.{$key}.{$hash}.pdf";
+
+            if (null === $this->beraRepository->findOneBy(['mountain' => $mountain, 'date' => $date])) {
+                $bera = new Bera($mountain, $date, $link);
+                $this->entityManager->persist($bera);
+                $this->entityManager->flush();
+                $output->writeln("Saved $bera");
+            }
         }
 
         return Command::SUCCESS;
