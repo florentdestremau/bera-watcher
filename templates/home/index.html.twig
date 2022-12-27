@@ -26,4 +26,19 @@
         Ceci est possible grâce à <a href="https://github.com/qloridant/meteofrance_bra_hist">https://github.com/qloridant/meteofrance_bra_hist</a>
         qui récupère les données à jour.
     </div>
+
+    <hr>
+
+    <div>
+        Liste des BERAS disponibles:
+        <ul class="list-group">
+            {% for bera in beras %}
+                <li class="list-group-item">
+                    <a href="{{ bera.link }}" target="_blank">{{ bera }}</a>
+                </li>
+            {% else %}
+                Pas de BERA.
+            {% endfor %}
+        </ul>
+    </div>
 {% endblock %}

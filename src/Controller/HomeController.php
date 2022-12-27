@@ -14,8 +14,11 @@ use Symfony\Component\Routing\Annotation\Route;
 class HomeController extends AbstractController
 {
     #[Route('', name: 'app_home')]
-    public function index(Request $request, BeraFinderService $beraFinderService, BeraRepository $beraRepository): Response
-    {
+    public function index(
+        Request $request,
+        BeraFinderService $beraFinderService,
+        BeraRepository $beraRepository
+    ): Response {
         $session = $request->getSession();
         $form = $this->createForm(LookupType::class, [
             'mountains' => $session->has('mountains') ? Mountain::from($session->get('mountains')) : null,
@@ -38,6 +41,10 @@ class HomeController extends AbstractController
 
         $beras = $beraRepository->findAll();
 
-        return $this->render('home/index.html.twig', ['form' => $form, 'message' => $message ?? null]);
+        return $this->render('home/index.html.twig', [
+            'form' => $form,
+            'message' => $message ?? null,
+            'beras' => $beras,
+        ]);
     }
 }
