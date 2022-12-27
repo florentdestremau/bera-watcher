@@ -66,7 +66,7 @@ class BeraExtractorService
             if (count($elements) > 0) {
                 $datetimePublication = end($elements)->getAttribute('value');
                 $urlDls[str_replace('/', '_', $selectMassif->getFirstSelectedOption()->getText())] = $datetimePublication;
-                echo("adding {$selectMassif->getFirstSelectedOption()->getText()} : $datetimePublication\n");
+                echo("Reading {$selectMassif->getFirstSelectedOption()->getText()} : $datetimePublication\n");
             }
         }
 

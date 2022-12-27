@@ -8,6 +8,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: BeraRepository::class)]
+#[ORM\UniqueConstraint(fields: ['mountain', 'date'])]
 class Bera
 {
     #[ORM\Id]
