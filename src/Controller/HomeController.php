@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Form\LookupType;
 use App\Model\Mountain;
+use App\Repository\BeraRepository;
 use App\Service\BeraFinderService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,8 +14,11 @@ use Symfony\Component\Routing\Annotation\Route;
 class HomeController extends AbstractController
 {
     #[Route('', name: 'app_home')]
-    public function index(Request $request, BeraFinderService $beraFinderService): Response
-    {
+    public function index(
+        Request $request,
+        BeraFinderService $beraFinderService,
+        BeraRepository $beraRepository
+    ): Response {
         $session = $request->getSession();
         $form = $this->createForm(LookupType::class, [
             'mountains' => $session->has('mountains') ? Mountain::from($session->get('mountains')) : null,
@@ -27,7 +31,6 @@ class HomeController extends AbstractController
             $session->set('mountains', $data['mountains']->value);
 
             if ($url) {
-
                 return $this->redirect($url);
             } else {
                 $this->addFlash('danger', 'BERA introuvable');
@@ -36,6 +39,12 @@ class HomeController extends AbstractController
             }
         }
 
-        return $this->render('home/index.html.twig', ['form' => $form, 'message' => $message ?? null]);
+        $beras = $beraRepository->findBy([], [], 50);
+
+        return $this->render('home/index.html.twig', [
+            'form' => $form,
+            'message' => $message ?? null,
+            'beras' => $beras,
+        ]);
     }
 }
