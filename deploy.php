@@ -23,3 +23,7 @@ host('bera.watch')
 // Hooks
 
 after('deploy:failed', 'deploy:unlock');
+
+desc('Applies databse migrations');
+task('deploy:migrations', fn() => run('{{bin/php}} {{release_or_current_path}}/bin/console doctrine:migrations:migrate -n'));
+before('deploy:publish', 'deploy:migrations');
