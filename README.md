@@ -29,3 +29,8 @@ php composer-setup.php
 php -r "unlink('composer-setup.php');"
 sudo mv composer.phar /usr/local/bin/composer
 ```
+# Server cron
+
+```shell
+*/15 15-17 * * * php /var/www/bera-watcher/current/bin/console app:extract-daily-beras
+```
