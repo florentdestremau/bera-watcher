@@ -39,7 +39,7 @@ class HomeController extends AbstractController
             }
         }
 
-        $beras = $beraRepository->findAll();
+        $beras = $beraRepository->findBy([], [], 50);
 
         return $this->render('home/index.html.twig', [
             'form' => $form,
