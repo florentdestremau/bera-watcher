@@ -30,7 +30,7 @@
     <hr>
 
     <div>
-        Liste des BERAS disponibles (max 50):
+        Liste des BERAS récents disponibles ({{ beras|length }}/{{ totalBerasCount }}):
         <ul class="list-group">
             {% for bera in beras %}
                 <li class="list-group-item">

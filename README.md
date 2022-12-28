@@ -21,7 +21,7 @@ sudo timedatectl set-timezone Europe/Paris
 # php
 sudo add-apt-repository ppa:ondrej/php
 sudo apt update
-sudo apt -y install php8.2 php8.2-{bcmath,bz2,curl,apcu,intl,gd,mbstring,opcache,pgsql,redis,xml,zip,fpm}
+sudo apt -y install php8.2 php8.2-{bcmath,bz2,curl,apcu,intl,gd,mbstring,opcache,sqlite3,redis,xml,zip,fpm}
 sudo apt -y install php-gd php-gmp php-curl zip unzip php-igbinary
 php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
 php -r "if (hash_file('sha384', 'composer-setup.php') === '55ce33d7678c5a611085589f1f3ddf8b3c52d662cd01d4ba75c0ee0459970c2200a51f492d557530c71c15d8dba01eae') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"

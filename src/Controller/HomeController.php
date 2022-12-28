@@ -39,12 +39,14 @@ class HomeController extends AbstractController
             }
         }
 
-        $beras = $beraRepository->findBy([], [], 50);
+        $beras = $beraRepository->findBy([], ['id' => 'DESC'], 35);
+        $totalBerasCount = $beraRepository->count([]);
 
         return $this->render('home/index.html.twig', [
-            'form' => $form,
-            'message' => $message ?? null,
-            'beras' => $beras,
+            'form'            => $form,
+            'message'         => $message ?? null,
+            'beras'           => $beras,
+            'totalBerasCount' => $totalBerasCount,
         ]);
     }
 }
