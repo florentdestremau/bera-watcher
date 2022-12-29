@@ -8,7 +8,7 @@ require 'recipe/symfony.php';
 
 set('repository', 'git@github.com:florentdestremau/bera-watcher.git');
 
-add('shared_files', ['.env.local']);
+add('shared_files', ['.env.local', 'var/data.db']);
 add('shared_dirs', ['var/log']);
 add('writable_dirs', ['var/cache']);
 
