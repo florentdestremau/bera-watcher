@@ -53,7 +53,7 @@ class HomeController extends AbstractController
         return $this->render('home/index.html.twig', [
             'form'            => $form,
             'message'         => $message ?? null,
-            'beras'           => $this->beraRepository->findBy([], ['id' => 'DESC'], 35),
+            'beras'           => $this->beraRepository->findBy([], ['date' => 'DESC'], 35),
             'totalBerasCount' => $this->beraRepository->count([]),
         ]);
     }

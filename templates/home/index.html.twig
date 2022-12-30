@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}BERA Watch: un site pour suivre la publication des BERA (Bulletin d'estimation du risque d'avalanche){% endblock %}
+{% block title %}BERA Watch : un site pour suivre la publication des BERA (Bulletin d'estimation du risque d'avalanche){% endblock %}
 
 {% block body %}
 
@@ -10,18 +10,16 @@
             Un simple site pour accéder à l'historique des BERA (Bulletin d'estimation du risque d'avalanche).
         </p>
 
-        <div style="max-width: 300px">
-            {% for label, messages in app.flashes %}
-                {% for message in messages %}
-                    <div class="alert alert-{{ label }}">
-                        {{ message }}
-                    </div>
-                {% endfor %}
-            {% endfor %}
+        <div style="max-width: 400px">
             {{ form(form) }}
+        </div>
+
+        <div>
+            Vous pouvez <a href="{{ path('app_subscribe') }}">vous abonner</a> à la publication d'un rapport.
         </div>
     </div>
 
+    <hr>
     <div>
         Ceci est possible grâce à <a href="https://github.com/qloridant/meteofrance_bra_hist">https://github.com/qloridant/meteofrance_bra_hist</a>
         qui récupère les données à jour.
@@ -30,7 +28,7 @@
     <hr>
 
     <div>
-        Liste des BERAS récents disponibles ({{ beras|length }}/{{ totalBerasCount }}):
+        Derniers BERAs disponibles ({{ beras|length }}/{{ totalBerasCount }}):
         <ul class="list-group">
             {% for bera in beras %}
                 <li class="list-group-item">
