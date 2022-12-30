@@ -21,7 +21,7 @@ class LookupType extends AbstractType
         }
 
         $builder
-            ->add('mountains', EnumType::class, [
+            ->add('mountain', EnumType::class, [
                 'class'        => Mountain::class,
                 'choice_label' => 'value',
                 'label'        => 'Massif',
