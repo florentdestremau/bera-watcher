@@ -8,9 +8,9 @@ require 'recipe/symfony.php';
 
 set('repository', 'git@github.com:florentdestremau/bera-watcher.git');
 
-add('shared_files', ['.env.local', 'var/data.db']);
+add('shared_files', ['.env.local', 'var/db/data.db']);
 add('shared_dirs', ['var/log']);
-add('writable_dirs', ['var/cache']);
+add('writable_dirs', ['var/cache', 'var/db']);
 
 set('deploy_path', '/var/www/bera-watcher');
 // Hosts
