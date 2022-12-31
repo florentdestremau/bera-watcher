@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Bera;
+use App\Event\BeraCreatedEvent;
 use App\Form\LookupType;
 use App\Model\Mountain;
 use App\Repository\BeraRepository;
@@ -13,13 +14,15 @@ use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 class HomeController extends AbstractController
 {
     public function __construct(
         private BeraFinderService $beraFinderService,
         private EntityManagerInterface $entityManager,
-        private BeraRepository $beraRepository
+        private BeraRepository $beraRepository,
+        private EventDispatcherInterface $dispatcher,
     ) {
     }
 
@@ -50,7 +53,7 @@ class HomeController extends AbstractController
         return $this->render('home/index.html.twig', [
             'form'            => $form,
             'message'         => $message ?? null,
-            'beras'           => $this->beraRepository->findBy([], ['id' => 'DESC'], 35),
+            'beras'           => $this->beraRepository->findBy([], ['date' => 'DESC'], 35),
             'totalBerasCount' => $this->beraRepository->count([]),
         ]);
     }
@@ -66,6 +69,7 @@ class HomeController extends AbstractController
                 $bera = new Bera($mountain, $date, $link);
                 $this->entityManager->persist($bera);
                 $this->entityManager->flush();
+                $this->dispatcher->dispatch(new BeraCreatedEvent($bera));
             }
         }
 

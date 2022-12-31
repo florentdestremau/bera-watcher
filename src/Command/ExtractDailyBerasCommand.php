@@ -3,6 +3,7 @@
 namespace App\Command;
 
 use App\Entity\Bera;
+use App\Event\BeraCreatedEvent;
 use App\Model\Mountain;
 use App\Repository\BeraRepository;
 use App\Service\BeraExtractorService;
@@ -13,6 +14,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 #[AsCommand(
     name: 'app:extract-daily-beras',
@@ -24,6 +26,7 @@ class ExtractDailyBerasCommand extends Command
         private BeraExtractorService $beraExtractorService,
         private EntityManagerInterface $entityManager,
         private BeraRepository $beraRepository,
+        private EventDispatcherInterface $dispatcher,
     ) {
         parent::__construct();
     }
@@ -50,6 +53,7 @@ class ExtractDailyBerasCommand extends Command
                 $this->entityManager->persist($bera);
                 $this->entityManager->flush();
                 $output->writeln("Saved $bera");
+                $this->dispatcher->dispatch(new BeraCreatedEvent($bera));
             }
         }
 
