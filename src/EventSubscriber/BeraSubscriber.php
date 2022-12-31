@@ -27,7 +27,7 @@ class BeraSubscriber implements EventSubscriberInterface
         $bera = $event->bera;
 
         if ($bera->getDate()->format('Y-m-d') === date('Y-m-d')) {
-            $subscribers = $this->subscriberRepository->findBy(['mountains' => $bera->getMountain()]);
+            $subscribers = $this->subscriberRepository->findByMountain($bera->getMountain());
 
             foreach ($subscribers as $subscriber) {
                 $this->sendBeraByEmailService->sendEmail($bera, $subscriber);

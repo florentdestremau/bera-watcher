@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Subscriber;
+use App\Model\Mountain;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -39,28 +40,11 @@ class SubscriberRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return Subscriber[] Returns an array of Subscriber objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('s')
-//            ->andWhere('s.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('s.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
-
-//    public function findOneBySomeField($value): ?Subscriber
-//    {
-//        return $this->createQueryBuilder('s')
-//            ->andWhere('s.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    public function findByMountain(Mountain $mountain)
+    {
+        return $this->createQueryBuilder('subscriber')
+            ->where('subscriber.mountains LIKE :mountain')
+            ->setParameter('mountain', "%{$mountain->value}%")
+            ->getQuery()->getResult();
+    }
 }
