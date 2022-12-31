@@ -3,10 +3,18 @@
 namespace App\EventSubscriber;
 
 use App\Event\BeraCreatedEvent;
+use App\Repository\SubscriberRepository;
+use App\Service\SendBeraByEmailService;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class BeraSubscriber implements EventSubscriberInterface
 {
+    public function __construct(
+        private SubscriberRepository $subscriberRepository,
+        private SendBeraByEmailService $sendBeraByEmailService
+    ) {
+    }
+
     public static function getSubscribedEvents(): array
     {
         return [
@@ -19,7 +27,11 @@ class BeraSubscriber implements EventSubscriberInterface
         $bera = $event->bera;
 
         if ($bera->getDate()->format('Y-m-d') === date('Y-m-d')) {
-            // Todo: send notification
+            $subscribers = $this->subscriberRepository->findBy(['mountains' => $bera->getMountain()]);
+
+            foreach ($subscribers as $subscriber) {
+                $this->sendBeraByEmailService->sendEmail($bera, $subscriber);
+            }
         }
     }
 }
