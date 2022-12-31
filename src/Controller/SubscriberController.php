@@ -30,7 +30,7 @@ class SubscriberController extends AbstractController
             $dispatcher->dispatch(new SubscriberCreatedEvent($subscriber));
             $this->addFlash(
                 'success', <<<EOM
-Vous avez été abonné aux publications des massifs {$subscriber->getMountainsAsString()}. Le dernier BERA vous a été envoyé.
+Vous avez été abonné aux publications des massifs {$subscriber->getMountainsAsString()}. Le dernier BERA vous a été envoyé. Vérifiez dans vos spams si vous ne le voyez pas apparaître.
 EOM
             );
 
