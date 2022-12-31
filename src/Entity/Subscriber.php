@@ -6,8 +6,12 @@ use App\Model\Mountain;
 use App\Repository\SubscriberRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: SubscriberRepository::class)]
+#[ORM\UniqueConstraint(fields: ['email'])]
+#[UniqueEntity('email', message: 'Cette adresse est déjà utilisée')]
 class Subscriber
 {
     #[ORM\Id]
