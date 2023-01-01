@@ -27,14 +27,9 @@ class HomeController extends AbstractController
     }
 
     #[Route('', name: 'app_home')]
-    public function index(
-        Request $request,
-        BeraFinderService $beraFinderService,
-    ): Response {
-        $session = $request->getSession();
-        $form = $this->createForm(LookupType::class, [
-            'mountain' => $session->has('mountain') ? Mountain::from($session->get('mountain')) : null,
-        ]);
+    public function index(Request $request): Response
+    {
+        $form = $this->createForm(LookupType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -42,8 +37,6 @@ class HomeController extends AbstractController
             $bera = $this->findBera($data['mountain'], $data['date']);
 
             if ($bera instanceof Bera) {
-                $session->set('mountain', $bera->getMountain()->value);
-
                 return $this->redirect($bera->getLink());
             }
 

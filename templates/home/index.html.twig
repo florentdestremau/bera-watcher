@@ -14,6 +14,17 @@
             {{ form(form) }}
         </div>
 
+        <script type="application/javascript">
+          if (window.localStorage.getItem('mountain')) {
+            document.querySelector('#lookup_mountain').value = window.localStorage.getItem('mountain');
+          }
+
+          document.querySelector('#lookup_mountain').addEventListener('change', event => {
+            const mountain = event.target.value;
+            window.localStorage.setItem('mountain', mountain);
+          });
+        </script>
+
         <div>
             Vous pouvez <a href="{{ path('app_subscribe') }}">vous abonner</a> à la publication d'un rapport.
         </div>
