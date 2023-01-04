@@ -33,15 +33,12 @@ class SubscriberSubscriber implements EventSubscriberInterface
             $latestBera = $this->beraRepository->findOneBy(['mountain' => $mountain], ['date' => 'DESC']);
 
             if ($latestBera instanceof Bera) {
-                $this->notifier->send(
-                    new OnSubscribeNotification($latestBera, ['email']),
-                    new Recipient($event->subscriber->getEmail())
-                );
+                $this->notifier->send(new OnSubscribeNotification($latestBera), $event->subscriber);
             }
         }
 
         $this->notifier->send(
-            (new Notification("Nouvel abonné: {$event->subscriber}", ['email'])),
+            (new Notification("Nouvel abonné: {$event->subscriber}", ['email']))->content(' '),
             new Recipient($this->adminEmail)
         );
     }

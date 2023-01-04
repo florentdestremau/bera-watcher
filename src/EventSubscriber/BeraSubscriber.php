@@ -35,7 +35,7 @@ class BeraSubscriber implements EventSubscriberInterface
             foreach ($subscribers as $subscriber) {
                 $this->notifier->send(
                     new OnBeraExtractNotification($bera, ['email']),
-                    new Recipient($subscriber->getEmail())
+                    $subscriber->getEmail()
                 );
             }
         }

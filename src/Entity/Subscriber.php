@@ -7,12 +7,12 @@ use App\Repository\SubscriberRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Notifier\Recipient\EmailRecipientInterface;
 
 #[ORM\Entity(repositoryClass: SubscriberRepository::class)]
 #[ORM\UniqueConstraint(fields: ['email'])]
 #[UniqueEntity('email', message: 'Cette adresse est déjà utilisée')]
-class Subscriber
+class Subscriber implements EmailRecipientInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -33,12 +33,17 @@ class Subscriber
         return "{$this->email}: {$this->getMountainsAsString()}";
     }
 
+    public function getMountainsAsString(): string
+    {
+        return join(', ', array_map(fn (Mountain $mountain) => $mountain->value, $this->mountains));
+    }
+
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getEmail(): ?string
+    public function getEmail(): string
     {
         return $this->email;
     }
@@ -68,10 +73,5 @@ class Subscriber
         $this->mountains = $mountains;
 
         return $this;
-    }
-
-    public function getMountainsAsString(): string
-    {
-        return join(', ', array_map(fn (Mountain $mountain) => $mountain->value, $this->mountains));
     }
 }

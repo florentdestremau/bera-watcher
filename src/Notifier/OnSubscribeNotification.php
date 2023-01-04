@@ -12,9 +12,9 @@ use Symfony\Component\Notifier\Recipient\EmailRecipientInterface;
 
 class OnSubscribeNotification extends Notification implements EmailNotificationInterface
 {
-    public function __construct(private Bera $bera, array $channels = [])
+    public function __construct(private Bera $bera)
     {
-        parent::__construct("Votre BERA pour {$this->bera->getMountain()->value} est disponible", $channels);
+        parent::__construct("Votre BERA pour {$this->bera->getMountain()->value} est disponible", ['email']);
     }
 
     public function asEmailMessage(EmailRecipientInterface $recipient, string $transport = null): ?EmailMessage
