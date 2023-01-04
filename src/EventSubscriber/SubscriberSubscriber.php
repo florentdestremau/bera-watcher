@@ -6,7 +6,6 @@ use App\Entity\Bera;
 use App\Event\SubscriberCreatedEvent;
 use App\Notifier\SendBeraAfterSubscribedNotification;
 use App\Repository\BeraRepository;
-use App\Service\SendBeraByEmailService;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Notifier\Notification\Notification;
 use Symfony\Component\Notifier\NotifierInterface;
