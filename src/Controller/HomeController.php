@@ -43,7 +43,7 @@ class HomeController extends AbstractController
             $form->addError(new FormError("BERA introuvable"));
         }
 
-        return $this->render('home/index.html.twig', [
+        return $this->render('index.html.twig', [
             'form'            => $form,
             'message'         => $message ?? null,
             'beras'           => $this->beraRepository->findBy([], ['date' => 'DESC'], 35),

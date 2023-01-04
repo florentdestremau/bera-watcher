@@ -37,6 +37,6 @@ EOM
             return $this->redirectToRoute('app_home');
         }
 
-        return $this->render('subscriber/subscribe.html.twig', ['form' => $form]);
+        return $this->render('subscribe.html.twig', ['form' => $form]);
     }
 }
