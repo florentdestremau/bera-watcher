@@ -28,6 +28,11 @@ class Subscriber
     #[ORM\Column(type: Types::SIMPLE_ARRAY, enumType: 'App\Model\Mountain')]
     private array $mountains = [];
 
+    public function __toString(): string
+    {
+        return "{$this->email}: {$this->getMountainsAsString()}";
+    }
+
     public function getId(): ?int
     {
         return $this->id;
