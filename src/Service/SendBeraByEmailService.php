@@ -4,37 +4,31 @@ namespace App\Service;
 
 use App\Entity\Bera;
 use App\Entity\Subscriber;
-use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
-use Symfony\Component\Mailer\MailerInterface;
-use Symfony\Component\Mime\Address;
-use Symfony\Component\Mime\Email;
+use Symfony\Component\Notifier\Notification\Notification;
+use Symfony\Component\Notifier\NotifierInterface;
+use Symfony\Component\Notifier\Recipient\Recipient;
 
-class SendBeraByEmailService
+readonly class SendBeraByEmailService
 {
-    public function __construct(private MailerInterface $mailer, private ContainerBagInterface $params)
+    public function __construct(private NotifierInterface $notifier)
     {
     }
 
     public function sendEmail(Bera $bera, Subscriber $subscriber): void
     {
-        $message = new Email();
-        $senderAddress = $this->params->get('email_sender_address');
-        $message->from(new Address($senderAddress, 'BERA Watch'));
-        $message->to($subscriber->getEmail());
-        $message->subject("Votre BERA pour {$bera->getMountain()->value} est disponible");
-        $message->html(
+        $notification = new Notification("Votre BERA pour {$bera->getMountain()->value} est disponible", ['email']);
+        $notification->content(
             <<<EOT
-<p>Bonjour,</p>
+Bonjour,
 
-<p>Vous vous êtes abonné à la publication des BERA (Bulletin d'Estimation de Risques d'Avalance) pour le massif <strong>{$bera->getMountain()->value}</strong>.</p>
+Vous vous êtes abonné à la publication des BERA (Bulletin d'Estimation de Risques d'Avalance) pour le massif {$bera->getMountain()->value}.
 
-<p>Vous pouvez le consulter sur le lien suivant:</p>
+Vous pouvez le consulter sur le lien suivant:
 
-<a href="{$bera->getLink()}">{$bera->getLink()}</a>
+{$bera->getLink()}
 EOT
         );
-
-        $this->mailer->send($message);
-
+        $recipient = new Recipient($subscriber->getEmail());
+        $this->notifier->send($notification, $recipient);
     }
 }
