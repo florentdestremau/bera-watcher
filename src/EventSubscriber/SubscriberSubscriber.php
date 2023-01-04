@@ -4,6 +4,7 @@ namespace App\EventSubscriber;
 
 use App\Entity\Bera;
 use App\Event\SubscriberCreatedEvent;
+use App\Notifier\SendBeraAfterSubscribedNotification;
 use App\Repository\BeraRepository;
 use App\Service\SendBeraByEmailService;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -15,7 +16,6 @@ class SubscriberSubscriber implements EventSubscriberInterface
 {
     public function __construct(
         private BeraRepository $beraRepository,
-        private SendBeraByEmailService $sendBeraByEmailService,
         private NotifierInterface $notifier,
         private string $adminEmail,
     ) {
@@ -34,13 +34,16 @@ class SubscriberSubscriber implements EventSubscriberInterface
             $latestBera = $this->beraRepository->findOneBy(['mountain' => $mountain], ['date' => 'DESC']);
 
             if ($latestBera instanceof Bera) {
-                $this->sendBeraByEmailService->sendEmail($latestBera, $event->subscriber);
+                $this->notifier->send(
+                    new SendBeraAfterSubscribedNotification($latestBera, ['email']),
+                    new Recipient($event->subscriber->getEmail())
+                );
             }
         }
 
-        $notification = new Notification("Nouvel abonné: {$event->subscriber}", ['email']);
-        $notification->importance(Notification::IMPORTANCE_MEDIUM);
-        $recipient = new Recipient($this->adminEmail);
-        $this->notifier->send($notification, $recipient);
+        $this->notifier->send(
+            (new Notification("Nouvel abonné: {$event->subscriber}", ['email'])),
+            new Recipient($this->adminEmail)
+        );
     }
 }
