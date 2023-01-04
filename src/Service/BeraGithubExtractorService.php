@@ -4,7 +4,7 @@ namespace App\Service;
 
 use App\Model\Mountain;
 
-class BeraFinderService
+class BeraGithubExtractorService
 {
 
     public function findPDfUrl(Mountain $mountains, \DateTime $date): ?string

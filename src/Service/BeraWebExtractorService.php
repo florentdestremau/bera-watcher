@@ -11,7 +11,7 @@ use Facebook\WebDriver\WebDriverKeys;
 use Facebook\WebDriver\WebDriverSelect;
 use Symfony\Component\Panther\Client;
 
-class BeraExtractorService
+class BeraWebExtractorService
 {
     private WebDriver $driver;
 
@@ -29,8 +29,8 @@ class BeraExtractorService
 
     public function extract(\DateTime $date = null): array
     {
-        $urlTimePublishment = 'https://donneespubliques.meteofrance.fr/?fond=produit&id_produit=265&id_rubrique=50';
-        $this->driver->get($urlTimePublishment);
+        $publicUrl = 'https://donneespubliques.meteofrance.fr/?fond=produit&id_produit=265&id_rubrique=50';
+        $this->driver->get($publicUrl);
 
         $this->acceptEventualCookies();
 

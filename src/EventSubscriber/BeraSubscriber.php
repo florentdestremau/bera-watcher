@@ -3,7 +3,7 @@
 namespace App\EventSubscriber;
 
 use App\Event\BeraCreatedEvent;
-use App\Notifier\SendBeraOnExtractNotification;
+use App\Notifier\OnBeraExtractNotification;
 use App\Repository\SubscriberRepository;
 use App\Service\SendBeraByEmailService;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -34,7 +34,7 @@ class BeraSubscriber implements EventSubscriberInterface
 
             foreach ($subscribers as $subscriber) {
                 $this->notifier->send(
-                    new SendBeraOnExtractNotification($bera, ['email']),
+                    new OnBeraExtractNotification($bera, ['email']),
                     new Recipient($subscriber->getEmail())
                 );
             }

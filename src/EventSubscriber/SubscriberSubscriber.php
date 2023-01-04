@@ -4,7 +4,7 @@ namespace App\EventSubscriber;
 
 use App\Entity\Bera;
 use App\Event\SubscriberCreatedEvent;
-use App\Notifier\SendBeraAfterSubscribedNotification;
+use App\Notifier\OnSubscribeNotification;
 use App\Repository\BeraRepository;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Notifier\Notification\Notification;
@@ -34,7 +34,7 @@ class SubscriberSubscriber implements EventSubscriberInterface
 
             if ($latestBera instanceof Bera) {
                 $this->notifier->send(
-                    new SendBeraAfterSubscribedNotification($latestBera, ['email']),
+                    new OnSubscribeNotification($latestBera, ['email']),
                     new Recipient($event->subscriber->getEmail())
                 );
             }

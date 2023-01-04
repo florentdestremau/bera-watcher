@@ -6,7 +6,7 @@ use App\Entity\Bera;
 use App\Event\BeraCreatedEvent;
 use App\Model\Mountain;
 use App\Repository\BeraRepository;
-use App\Service\BeraExtractorService;
+use App\Service\BeraWebExtractorService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -23,7 +23,7 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 class ExtractDailyBerasCommand extends Command
 {
     public function __construct(
-        private BeraExtractorService $beraExtractorService,
+        private BeraWebExtractorService $webExtractorService,
         private EntityManagerInterface $entityManager,
         private BeraRepository $beraRepository,
         private EventDispatcherInterface $dispatcher,
@@ -42,7 +42,7 @@ class ExtractDailyBerasCommand extends Command
         $date = $input->getArgument('date') ? \DateTime::createFromFormat('Y-m-d', $input->getArgument('date')) :
             new \DateTime();
         $date->setTime(0, 0);
-        $mapping = $this->beraExtractorService->extract($date);
+        $mapping = $this->webExtractorService->extract($date);
 
         foreach ($mapping as $key => $hash) {
             $mountain = Mountain::from($key);

@@ -7,7 +7,7 @@ use App\Event\BeraCreatedEvent;
 use App\Form\LookupType;
 use App\Model\Mountain;
 use App\Repository\BeraRepository;
-use App\Service\BeraFinderService;
+use App\Service\BeraGithubExtractorService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormError;
@@ -19,7 +19,7 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 class HomeController extends AbstractController
 {
     public function __construct(
-        private BeraFinderService $beraFinderService,
+        private BeraGithubExtractorService $githubExtractorService,
         private EntityManagerInterface $entityManager,
         private BeraRepository $beraRepository,
         private EventDispatcherInterface $dispatcher,
@@ -56,7 +56,7 @@ class HomeController extends AbstractController
         $bera = $this->beraRepository->findOneBy(['mountain' => $mountain, 'date' => $date]);
 
         if (!$bera instanceof Bera) {
-            $link = $this->beraFinderService->findPDfUrl($mountain, $date);
+            $link = $this->githubExtractorService->findPDfUrl($mountain, $date);
 
             if ($link) {
                 $bera = new Bera($mountain, $date, $link);
