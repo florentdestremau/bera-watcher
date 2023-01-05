@@ -7,7 +7,7 @@
 ```shell
 git clone git@github.com:florentdestremau/bera-watcher.git && cd bera-watcher
 composer install
-symfony serve
+make start
 ```
 
 # Server provision
