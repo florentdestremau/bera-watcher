@@ -7,7 +7,9 @@
     <div>
         <h1>BERA Watcher</h1>
         <p>
-            Un simple site pour accéder à l'historique des BERA (Bulletin d'estimation du risque d'avalanche).
+            Un portail pour accéder facilement aux Bulletins d'estimation du risque d'avalanche (BERA) des différents
+            massifs français. Vous pouvez consulter l'historique des bulletins et vous abonner à la publication
+            quotidienne des nouveaux.
         </p>
 
         <div style="max-width: 400px">
@@ -45,8 +47,17 @@
         </ul>
     </div>
 
+    <hr>
+
     <div>
         L'historique complet est disponible grâce au projet <a href="https://github.com/qloridant/meteofrance_bra_hist">https://github.com/qloridant/meteofrance_bra_hist</a>
-        qui récupère les données à jour. Les nouvelles données sont récupérées directement ici pour faciliter le traitement.
+        qui récupère les données à jour. Les nouvelles données sont récupérées directement ici pour faciliter le
+        traitement.
     </div>
+
+    <footer>
+        <div class="text-center">
+            © Florent Destremau {{ date()|date('Y') }}
+        </div>
+    </footer>
 {% endblock %}
