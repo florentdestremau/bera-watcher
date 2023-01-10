@@ -3,4 +3,3 @@ framework:
         dsn: '%env(MAILER_DSN)%'
         envelope:
             sender: '%env(EMAIL_SENDER_ADDRESS)%'
-            recipients: ['%env(EMAIL_ADMIN_ADDRESS)%']
