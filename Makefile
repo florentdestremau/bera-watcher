@@ -1,6 +1,6 @@
 start:
 	docker-compose up -d
-	symfony serve -d
+	symfony server:start -d
 
 stop:
 	docker-compose stop

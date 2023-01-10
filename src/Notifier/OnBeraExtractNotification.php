@@ -3,12 +3,14 @@
 namespace App\Notifier;
 
 use App\Entity\Bera;
+use App\Entity\Subscriber;
 use Symfony\Bridge\Twig\Mime\NotificationEmail;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\Notifier\Message\EmailMessage;
 use Symfony\Component\Notifier\Notification\EmailNotificationInterface;
 use Symfony\Component\Notifier\Notification\Notification;
 use Symfony\Component\Notifier\Recipient\EmailRecipientInterface;
+use Symfony\Component\Routing\RouterInterface;
 
 class OnBeraExtractNotification extends Notification implements EmailNotificationInterface
 {
@@ -17,7 +19,7 @@ class OnBeraExtractNotification extends Notification implements EmailNotificatio
         parent::__construct("Votre BERA pour {$this->bera->getMountain()->value} est disponible", $channels);
     }
 
-    public function asEmailMessage(EmailRecipientInterface $recipient, string $transport = null): ?EmailMessage
+    public function asEmailMessage(EmailRecipientInterface|Subscriber $recipient, string $transport = null): ?EmailMessage
     {
         $email = (new NotificationEmail())
             ->markAsPublic()
@@ -27,9 +29,9 @@ class OnBeraExtractNotification extends Notification implements EmailNotificatio
                 <<<EOT
 Bonjour,
 
-Vous êtes abonné à la publication des BERA (Bulletin d'Estimation de Risques d'Avalance) pour le massif **{$this->bera->getMountain()->value}**.
+Un nouveau BERA est disponible pour le massif **{$this->bera->getMountain()->value}**.
 
-Voici le lien pour consulter le dernier rapport en date pour ce massif.
+*Vous pouvez éditez vos préférences [ici]({$recipient->getEditLink()}).*
 EOT
             )
             ->action("Consulter le BERA pour {$this->bera->getMountain()->value}", $this->bera->getLink());

@@ -12,8 +12,7 @@ services:
             # You should definitely change the password in production
             POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-!ChangeMe!}
             POSTGRES_USER: ${POSTGRES_USER:-app}
-        ports:
-            - "5432:5432"
+        ports: [5432]
 
 volumes:
     ####> doctrine/doctrine-bundle ###

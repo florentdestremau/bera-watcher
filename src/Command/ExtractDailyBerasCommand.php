@@ -18,7 +18,7 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 #[AsCommand(
     name: 'app:extract-daily-beras',
-    description: 'Add a short description for your command',
+    description: 'Extract the beras on a daily basis, and dispatch its creation workflow',
 )]
 class ExtractDailyBerasCommand extends Command
 {

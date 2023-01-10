@@ -28,6 +28,17 @@ class Subscriber implements EmailRecipientInterface
     #[ORM\Column(type: Types::SIMPLE_ARRAY, enumType: 'App\Model\Mountain')]
     private array $mountains = [];
 
+    #[ORM\Column(length: 255)]
+    private string $token;
+
+    #[ORM\Column(length: 255)]
+    private string $editLink;
+
+    public function __construct()
+    {
+        $this->token = bin2hex(random_bytes(8));
+    }
+
     public function __toString(): string
     {
         return "{$this->email}: {$this->getMountainsAsString()}";
@@ -71,6 +82,30 @@ class Subscriber implements EmailRecipientInterface
     public function setMountains(array $mountains): self
     {
         $this->mountains = $mountains;
+
+        return $this;
+    }
+
+    public function getToken(): ?string
+    {
+        return $this->token;
+    }
+
+    public function setToken(string $token): self
+    {
+        $this->token = $token;
+
+        return $this;
+    }
+
+    public function getEditLink(): string
+    {
+        return $this->editLink;
+    }
+
+    public function setEditLink(string $editLink): self
+    {
+        $this->editLink = $editLink;
 
         return $this;
     }

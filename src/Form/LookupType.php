@@ -36,9 +36,4 @@ class LookupType extends AbstractType
                 'label' => 'Consulter le BERA',
             ]);
     }
-
-    public function configureOptions(OptionsResolver $resolver)
-    {
-        $resolver->setDefaults(['csrf_protection' => true]);
-    }
 }
