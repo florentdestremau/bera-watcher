@@ -31,12 +31,6 @@
     </div>
 
     <hr>
-    <div>
-        L'historique est disponible grâce au projet <a href="https://github.com/qloridant/meteofrance_bra_hist">https://github.com/qloridant/meteofrance_bra_hist</a>
-        qui récupère les données à jour. Les nouvelles données sont récupérées directement ici pour faciliter le traitement.
-    </div>
-
-    <hr>
 
     <div>
         Derniers BERAs disponibles ({{ beras|length }}/{{ totalBerasCount }}):
@@ -49,5 +43,10 @@
                 Pas de BERA.
             {% endfor %}
         </ul>
+    </div>
+
+    <div>
+        L'historique complet est disponible grâce au projet <a href="https://github.com/qloridant/meteofrance_bra_hist">https://github.com/qloridant/meteofrance_bra_hist</a>
+        qui récupère les données à jour. Les nouvelles données sont récupérées directement ici pour faciliter le traitement.
     </div>
 {% endblock %}
