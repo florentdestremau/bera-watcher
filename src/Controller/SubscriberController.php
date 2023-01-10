@@ -4,19 +4,15 @@ namespace App\Controller;
 
 use App\Entity\Subscriber;
 use App\Event\SubscriberCreatedEvent;
+use App\Form\SubscriberCreateType;
 use App\Form\SubscriberEditCreateType;
 use App\Form\SubscriberEmailType;
-use App\Form\SubscriberCreateType;
-use App\Repository\SubscriberRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Notifier\Notification\Notification;
-use Symfony\Component\Notifier\NotifierInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Symfony\Component\Routing\RouterInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 class SubscriberController extends AbstractController
@@ -46,37 +42,6 @@ EOM
         }
 
         return $this->render('subscribe.html.twig', ['form' => $form]);
-    }
-
-    #[Route('/send-edit-link', name: 'app_sendeditlink')]
-    public function sendEditLink(
-        Request $request,
-        NotifierInterface $notifier,
-        SubscriberRepository $subscriberRepository,
-        RouterInterface $router,
-    ): Response {
-        $form = $this->createForm(SubscriberEmailType::class);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $email = $form->get('email')->getData();
-
-            $sub = $subscriberRepository->findOneBy(['email' => $email]);
-
-            if ($sub instanceof Subscriber) {
-                $notification = (new Notification("Votre lien d'édition d'abonnement", ['email']))
-                    ->content(
-                        <<<EOM
-                        Vous pouvez mettre à jour votre abonnement en suivant le lien suivant:
-                        {$router->generate('app_editsubscription', ['token' => $sub->getToken()], UrlGeneratorInterface::ABSOLUTE_URL)}
-                        EOM
-                    );
-                $notifier->send($notification, $sub);
-                $this->addFlash('success', 'Un lien unique vous a été envoyé');
-            }
-        }
-
-        return $this->render('send_edit_link.html.twig', ['form' => $form]);
     }
 
     #[Route('/edit-subscription/{token}', name: 'app_editsubscription')]
