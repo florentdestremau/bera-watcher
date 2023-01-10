@@ -9,6 +9,7 @@ use Symfony\Component\Notifier\Message\EmailMessage;
 use Symfony\Component\Notifier\Notification\EmailNotificationInterface;
 use Symfony\Component\Notifier\Notification\Notification;
 use Symfony\Component\Notifier\Recipient\EmailRecipientInterface;
+use Symfony\Component\Routing\RouterInterface;
 
 class OnBeraExtractNotification extends Notification implements EmailNotificationInterface
 {
@@ -27,7 +28,7 @@ class OnBeraExtractNotification extends Notification implements EmailNotificatio
                 <<<EOT
 Bonjour,
 
-Vous êtes abonné à la publication des BERA (Bulletin d'Estimation de Risques d'Avalance) pour le massif **{$this->bera->getMountain()->value}**.
+Vous êtes abonné à la publication des BERA (Bulletin d'Estimation de Risques d'Avalanche) pour le massif **{$this->bera->getMountain()->value}**.
 
 Voici le lien pour consulter le dernier rapport en date pour ce massif.
 EOT
