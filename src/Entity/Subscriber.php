@@ -31,6 +31,9 @@ class Subscriber implements EmailRecipientInterface
     #[ORM\Column(length: 255)]
     private string $token;
 
+    #[ORM\Column(length: 255)]
+    private string $editLink;
+
     public function __construct()
     {
         $this->token = bin2hex(random_bytes(8));
@@ -91,6 +94,18 @@ class Subscriber implements EmailRecipientInterface
     public function setToken(string $token): self
     {
         $this->token = $token;
+
+        return $this;
+    }
+
+    public function getEditLink(): string
+    {
+        return $this->editLink;
+    }
+
+    public function setEditLink(string $editLink): self
+    {
+        $this->editLink = $editLink;
 
         return $this;
     }

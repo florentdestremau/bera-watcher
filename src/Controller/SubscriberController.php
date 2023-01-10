@@ -33,6 +33,7 @@ class SubscriberController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($subscriber);
+            $subscriber->setEditLink($this->generateUrl('app_editsubscription', ['token' => $subscriber->getToken()], UrlGeneratorInterface::ABSOLUTE_URL));
             $entityManager->flush();
             $dispatcher->dispatch(new SubscriberCreatedEvent($subscriber));
             $this->addFlash(

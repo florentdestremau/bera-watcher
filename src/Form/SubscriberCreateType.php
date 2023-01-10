@@ -17,7 +17,12 @@ class SubscriberCreateType extends AbstractType
     {
         $builder
             ->add('email', EmailType::class, ['label' => 'Adresse email'])
-            ->add('mountains', EnumType::class, ['class' => Mountain::class, 'multiple' => true, 'expanded' => true, 'required' => true, 'label' => 'Massifs'])
+            ->add('mountains', EnumType::class, ['class'    => Mountain::class,
+                                                 'multiple' => true,
+                                                 'expanded' => true,
+                                                 'required' => true,
+                                                 'label'    => 'Massifs',
+            ])
             ->add('submit', SubmitType::class, ['label' => 'S\'abonner', 'attr' => ['class' => 'btn btn-primary']]);
     }
 
