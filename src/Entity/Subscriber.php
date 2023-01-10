@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Model\Mountain;
+use App\Model\Weekday;
 use App\Repository\SubscriberRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -28,6 +29,12 @@ class Subscriber implements EmailRecipientInterface
     #[ORM\Column(type: Types::SIMPLE_ARRAY, enumType: 'App\Model\Mountain')]
     private array $mountains = [];
 
+    /**
+     * @var array<Weekday>
+     */
+    #[ORM\Column(type: Types::SIMPLE_ARRAY, enumType: 'App\Model\Weekday')]
+    private array $weekdays = [];
+
     #[ORM\Column(length: 255)]
     private string $token;
 
@@ -41,7 +48,7 @@ class Subscriber implements EmailRecipientInterface
 
     public function __toString(): string
     {
-        return "{$this->email}: {$this->getMountainsAsString()}";
+        return "{$this->email}: {$this->getWeekdaysAsString()} - {$this->getMountainsAsString()}";
     }
 
     public function getMountainsAsString(): string
@@ -108,5 +115,35 @@ class Subscriber implements EmailRecipientInterface
         $this->editLink = $editLink;
 
         return $this;
+    }
+
+    /**
+     * @return array<Weekday>
+     */
+    public function getWeekdays(): array
+    {
+        return $this->weekdays;
+    }
+
+    /**
+     * @param array<Weekday> $weekdays
+     *
+     * @return Subscriber
+     */
+    public function setWeekdays(array $weekdays): Subscriber
+    {
+        $this->weekdays = $weekdays;
+
+        return $this;
+    }
+
+    public function hasDay(int $day): bool
+    {
+        return in_array(Weekday::fromNumber($day), $this->weekdays);
+    }
+
+    private function getWeekdaysAsString(): string
+    {
+        return join(', ', array_map(fn (Weekday $weekday) => $weekday->value, $this->weekdays));
     }
 }

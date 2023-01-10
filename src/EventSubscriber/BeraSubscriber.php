@@ -8,7 +8,6 @@ use App\Repository\SubscriberRepository;
 use App\Service\SendBeraByEmailService;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Notifier\NotifierInterface;
-use Symfony\Component\Notifier\Recipient\Recipient;
 
 class BeraSubscriber implements EventSubscriberInterface
 {
@@ -33,10 +32,13 @@ class BeraSubscriber implements EventSubscriberInterface
             $subscribers = $this->subscriberRepository->findByMountain($bera->getMountain());
 
             foreach ($subscribers as $subscriber) {
-                $this->notifier->send(
-                    new OnBeraExtractNotification($bera, ['email']),
-                    $subscriber,
-                );
+                $day = date('N');
+                if ($subscriber->hasDay($day)) {
+                    $this->notifier->send(
+                        new OnBeraExtractNotification($bera, ['email']),
+                        $subscriber,
+                    );
+                }
             }
         }
     }
