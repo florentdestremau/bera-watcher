@@ -31,7 +31,8 @@ Bonjour,
 Vous vous êtes abonné à la publication des BERA (Bulletin d'Estimation de Risques d'Avalance) pour le massif **{$this->bera->getMountain()->value}**.
 
 À tout moment vous pouvez éditer vos préférences sur le lien suivant:
-{$recipient->getEditLink()} 
+
+[{$recipient->getEditLink()}]({$recipient->getEditLink()})
 EOT
             )
             ->action("Consulter le BERA pour {$this->bera->getMountain()->value}", $this->bera->getLink());
