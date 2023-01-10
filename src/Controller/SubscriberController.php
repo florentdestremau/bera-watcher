@@ -5,7 +5,7 @@ namespace App\Controller;
 use App\Entity\Subscriber;
 use App\Event\SubscriberCreatedEvent;
 use App\Form\SubscriberCreateType;
-use App\Form\SubscriberEditCreateType;
+use App\Form\SubscriberEditType;
 use App\Form\SubscriberEmailType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -50,7 +50,7 @@ EOM
         Subscriber $subscriber,
         EntityManagerInterface $entityManager
     ): Response {
-        $form = $this->createForm(SubscriberEditCreateType::class, $subscriber);
+        $form = $this->createForm(SubscriberEditType::class, $subscriber);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

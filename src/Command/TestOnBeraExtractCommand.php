@@ -13,7 +13,7 @@ use Symfony\Component\Notifier\NotifierInterface;
 
 #[AsCommand(
     name: 'app:test-on-bera-extract',
-    description: 'Add a short description for your command',
+    description: 'Send a random bera to a random subscriber',
 )]
 class TestOnBeraExtractCommand extends Command
 {
