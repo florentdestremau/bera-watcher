@@ -27,13 +27,16 @@ class TestOnBeraExtractCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $sub = $this->subscriberRepository->findOneBy([]);
+        $sub = $this->subscriberRepository->findOneBy([], ['id' => 'ASC']);
         $output->writeln("$sub");
 
         $bera = $this->beraRepository->findOneBy([]);
         $output->writeln("$bera");
 
-        $this->notifier->send(new OnBeraExtractNotification($bera, ['email']), $sub);
+        $day = date('N');
+        if ($sub->hasDay($day)) {
+            $this->notifier->send(new OnBeraExtractNotification($bera, ['email']), $sub);
+        }
 
         return Command::SUCCESS;
     }
