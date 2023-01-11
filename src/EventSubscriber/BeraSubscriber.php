@@ -5,7 +5,6 @@ namespace App\EventSubscriber;
 use App\Event\BeraCreatedEvent;
 use App\Notifier\OnBeraExtractNotification;
 use App\Repository\SubscriberRepository;
-use App\Service\SendBeraByEmailService;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Notifier\NotifierInterface;
 
