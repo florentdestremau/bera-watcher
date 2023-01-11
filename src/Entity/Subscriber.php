@@ -33,7 +33,7 @@ class Subscriber implements EmailRecipientInterface
      * @var array<Weekday>
      */
     #[ORM\Column(type: Types::SIMPLE_ARRAY, enumType: 'App\Model\Weekday')]
-    private array $weekdays = [];
+    private array $weekdays;
 
     #[ORM\Column(length: 255)]
     private string $token;
@@ -44,6 +44,7 @@ class Subscriber implements EmailRecipientInterface
     public function __construct()
     {
         $this->token = bin2hex(random_bytes(8));
+        $this->weekdays = Weekday::cases();
     }
 
     public function __toString(): string
