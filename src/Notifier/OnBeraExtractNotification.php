@@ -34,7 +34,8 @@ Un nouveau BERA est disponible pour le massif **{$this->bera->getMountain()->val
 *Vous pouvez éditez vos préférences [ici]({$recipient->getEditLink()}).*
 EOT
             )
-            ->action("Consulter le BERA pour {$this->bera->getMountain()->value}", $this->bera->getLink());
+            ->attachFromPath($this->bera->getLink(), "{$this->bera}.pdf")
+            ->action("Consulter le BERA {$this->bera}", $this->bera->getLink());
 
         return new EmailMessage($email);
     }

@@ -35,7 +35,8 @@ Vous vous êtes abonné à la publication des BERA (Bulletin d'Estimation de Ris
 [{$recipient->getEditLink()}]({$recipient->getEditLink()})
 EOT
             )
-            ->action("Consulter le BERA pour {$this->bera->getMountain()->value}", $this->bera->getLink());
+            ->attachFromPath($this->bera->getLink(), "{$this->bera}.pdf")
+            ->action("Consulter le BERA {$this->bera}", $this->bera->getLink());
 
         return new EmailMessage($email);
     }
