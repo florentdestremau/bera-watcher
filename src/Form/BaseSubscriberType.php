@@ -19,20 +19,21 @@ class BaseSubscriberType extends AbstractType
         $builder
             ->add('email', EmailType::class, ['label' => 'Adresse email'])
             ->add('weekdays', EnumType::class, [
+                'class'        => Weekday::class,
                 'label'        => 'Jours de la semaine',
                 'multiple'     => true,
                 'expanded'     => true,
-                'class'        => Weekday::class,
                 'choice_label' => fn (Weekday $weekday) => $weekday->value,
                 'attr'         => ['class' => 'hstack gap-2'],
             ])
             ->add('mountains', EnumType::class, [
-                'class'    => Mountain::class,
-                'multiple' => true,
-                'expanded' => true,
-                'required' => true,
-                'label'    => 'Massifs',
-                'attr'     => ['class' => 'columns'],
+                'class'        => Mountain::class,
+                'label'        => 'Massifs',
+                'required'     => true,
+                'multiple'     => true,
+                'expanded'     => true,
+                'choice_label' => fn (Mountain $mountain) => $mountain->value,
+                'attr'         => ['class' => 'columns'],
             ]);
     }
 
