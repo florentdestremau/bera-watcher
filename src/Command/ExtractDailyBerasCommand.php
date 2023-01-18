@@ -42,6 +42,21 @@ class ExtractDailyBerasCommand extends Command
         $date = $input->getArgument('date') ? \DateTime::createFromFormat('Y-m-d', $input->getArgument('date')) :
             new \DateTime();
         $date->setTime(0, 0);
+
+        $abortRun = true;
+
+        foreach (Mountain::cases() as $mountain) {
+            if (!$this->beraRepository->findOneBy(['mountain' => $mountain, 'date' => $date]) instanceof Bera) {
+                $abortRun = false;
+            }
+        }
+
+        if ($abortRun) {
+            $io->writeln("Run aborted: all Beras are already extracted");
+
+            return Command::SUCCESS;
+        }
+
         $mapping = $this->webExtractorService->extract($date);
 
         foreach ($mapping as $key => $hash) {
@@ -52,7 +67,7 @@ class ExtractDailyBerasCommand extends Command
                 $bera = new Bera($mountain, $date, $link);
                 $this->entityManager->persist($bera);
                 $this->entityManager->flush();
-                $output->writeln("Saved $bera");
+                $io->writeln("Saved $bera");
                 $this->dispatcher->dispatch(new BeraCreatedEvent($bera));
             }
         }
