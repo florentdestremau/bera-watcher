@@ -7,6 +7,7 @@ use App\Event\BeraCreatedEvent;
 use App\Form\LookupType;
 use App\Model\Mountain;
 use App\Repository\BeraRepository;
+use App\Service\BeraCreatorService;
 use App\Service\BeraGithubExtractorService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -23,6 +24,7 @@ class HomeController extends AbstractController
         private EntityManagerInterface $entityManager,
         private BeraRepository $beraRepository,
         private EventDispatcherInterface $dispatcher,
+        private BeraCreatorService $beraCreatorService,
     ) {
     }
 
@@ -56,10 +58,10 @@ class HomeController extends AbstractController
         $bera = $this->beraRepository->findOneBy(['mountain' => $mountain, 'date' => $date]);
 
         if (!$bera instanceof Bera) {
-            $link = $this->githubExtractorService->findPDfUrl($mountain, $date);
+            $hash = $this->githubExtractorService->findBeraHash($mountain, $date);
 
-            if ($link) {
-                $bera = new Bera($mountain, $date, $link);
+            if ($hash) {
+                $bera = $this->beraCreatorService->create($mountain, $date, $hash);
                 $this->entityManager->persist($bera);
                 $this->entityManager->flush();
                 $this->dispatcher->dispatch(new BeraCreatedEvent($bera));

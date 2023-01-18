@@ -27,8 +27,8 @@ final class Version20230118072312 extends AbstractMigration
         $this->addSql('UPDATE bera SET xml_link = REPLACE(link, \'pdf\', \'xml\')'); // csv link
         $this->addSql("UPDATE bera SET hash = substring(link from char_length(link)-17 for 14)");
 
-        $this->addSql('ALTER TABLE bera ALTER xml_link DROP DEFAULT');
-        $this->addSql('ALTER TABLE bera ALTER hash DROP DEFAULT');
+        $this->addSql('ALTER TABLE bera ALTER xml_link SET NOT NULL');
+        $this->addSql('ALTER TABLE bera ALTER hash SET NOT NULL');
     }
 
     public function down(Schema $schema): void

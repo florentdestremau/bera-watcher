@@ -31,18 +31,23 @@ class Bera
     #[ORM\Column(length: 255)]
     private string $xmlLink;
 
+    #[ORM\Column(type: Types::TEXT)]
+    private string $xml;
+
     public function __construct(
         Mountain $mountain,
         \DateTimeInterface $date,
         string $hash,
         string $link,
         string $xmlLink,
+        string $xml,
     ) {
         $this->mountain = $mountain;
         $this->date = $date;
         $this->hash = $hash;
         $this->link = $link;
         $this->xmlLink = $xmlLink;
+        $this->xml = $xml;
     }
 
     public function __toString(): string
@@ -112,6 +117,18 @@ class Bera
     public function setHash(string $hash): self
     {
         $this->hash = $hash;
+
+        return $this;
+    }
+
+    public function getXml(): ?string
+    {
+        return $this->xml;
+    }
+
+    public function setXml(string $xml): self
+    {
+        $this->xml = $xml;
 
         return $this;
     }
