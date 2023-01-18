@@ -6,6 +6,7 @@ use App\Entity\Bera;
 use App\Event\BeraCreatedEvent;
 use App\Model\Mountain;
 use App\Repository\BeraRepository;
+use App\Service\BeraCreatorService;
 use App\Service\BeraWebExtractorService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -27,6 +28,7 @@ class ExtractDailyBerasCommand extends Command
         private EntityManagerInterface $entityManager,
         private BeraRepository $beraRepository,
         private EventDispatcherInterface $dispatcher,
+        private BeraCreatorService $beraCreatorService,
     ) {
         parent::__construct();
     }
@@ -61,10 +63,9 @@ class ExtractDailyBerasCommand extends Command
 
         foreach ($mapping as $key => $hash) {
             $mountain = Mountain::from($key);
-            $link = "https://donneespubliques.meteofrance.fr/donnees_libres/Pdf/BRA/BRA.{$key}.{$hash}.pdf";
 
             if (null === $this->beraRepository->findOneBy(['mountain' => $mountain, 'date' => $date])) {
-                $bera = new Bera($mountain, $date, $link);
+                $bera = $this->beraCreatorService->create($mountain, $date, $hash);
                 $this->entityManager->persist($bera);
                 $this->entityManager->flush();
                 $io->writeln("Saved $bera");

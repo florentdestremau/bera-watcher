@@ -5,6 +5,7 @@ namespace App\Notifier;
 use App\Entity\Bera;
 use App\Entity\Subscriber;
 use Symfony\Bridge\Twig\Mime\NotificationEmail;
+use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\Notifier\Message\EmailMessage;
 use Symfony\Component\Notifier\Notification\EmailNotificationInterface;
@@ -16,11 +17,13 @@ class OnBeraExtractNotification extends Notification implements EmailNotificatio
 {
     public function __construct(private Bera $bera, array $channels = [])
     {
-        parent::__construct("Votre BERA pour {$this->bera->getMountain()->value} est disponible", $channels);
+        parent::__construct("BERA pour {$this->bera->getMountain()->value} le {$this->bera->getDate()->format('d/m/Y')}", $channels);
     }
 
     public function asEmailMessage(EmailRecipientInterface|Subscriber $recipient, string $transport = null): ?EmailMessage
     {
+        $crawler = new Crawler($this->bera->getXml());
+
         $email = (new NotificationEmail())
             ->markAsPublic()
             ->to(new Address($recipient->getEmail()))
@@ -30,6 +33,21 @@ class OnBeraExtractNotification extends Notification implements EmailNotificatio
 Bonjour,
 
 Un nouveau BERA est disponible pour le massif **{$this->bera->getMountain()->value}**.
+
+![BERA](data:image/png;base64,{$crawler->filterXPath('//ImageCartoucheRisque/Content')->text()})
+
+**Résumé:**
+
+{$crawler->filterXPath('//RESUME')->text()}
+
+**Stabilité:**
+
+{$crawler->filterXPath('//STABILITE/TEXTE')->text()}
+
+**Qualité:**
+
+{$crawler->filterXPath('//QUALITE/TEXTE')->text()}
+
 
 *Vous pouvez éditez vos préférences [ici]({$recipient->getEditLink()}).*
 EOT

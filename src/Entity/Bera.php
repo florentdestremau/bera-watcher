@@ -20,24 +20,39 @@ class Bera
     private Mountain $mountain;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTimeInterface $date = null;
+    private ?\DateTimeInterface $date;
 
     #[ORM\Column(length: 255)]
-    private ?string $link = null;
+    private string $hash;
+
+    #[ORM\Column(length: 255)]
+    private string $link;
+
+    #[ORM\Column(length: 255)]
+    private string $xmlLink;
+
+    #[ORM\Column(type: Types::TEXT)]
+    private string $xml;
 
     public function __construct(
         Mountain $mountain,
         \DateTimeInterface $date,
+        string $hash,
         string $link,
+        string $xmlLink,
+        string $xml,
     ) {
         $this->mountain = $mountain;
         $this->date = $date;
+        $this->hash = $hash;
         $this->link = $link;
+        $this->xmlLink = $xmlLink;
+        $this->xml = $xml;
     }
 
     public function __toString(): string
     {
-        return sprintf('%s %s', $this->mountain->value, $this->date->format('Y-m-d'));
+        return sprintf('%s %s', $this->mountain->value, $this->date->format('d/m/Y'));
     }
 
     public function getId(): ?int
@@ -78,6 +93,42 @@ class Bera
     public function setLink(string $link): self
     {
         $this->link = $link;
+
+        return $this;
+    }
+
+    public function getXmlLink(): string
+    {
+        return $this->xmlLink;
+    }
+
+    public function setXmlLink(string $xmlLink): self
+    {
+        $this->xmlLink = $xmlLink;
+
+        return $this;
+    }
+
+    public function getHash(): string
+    {
+        return $this->hash;
+    }
+
+    public function setHash(string $hash): self
+    {
+        $this->hash = $hash;
+
+        return $this;
+    }
+
+    public function getXml(): ?string
+    {
+        return $this->xml;
+    }
+
+    public function setXml(string $xml): self
+    {
+        $this->xml = $xml;
 
         return $this;
     }

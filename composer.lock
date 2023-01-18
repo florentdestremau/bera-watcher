@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "343fc8d0904be88310459cddf739b330",
+    "content-hash": "b86190fdf86a3597c769f8464217fe83",
     "packages": [
         {
             "name": "dbrekelmans/bdi",
