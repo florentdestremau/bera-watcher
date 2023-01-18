@@ -40,7 +40,7 @@
         <ul class="list-group">
             {% for bera in beras %}
                 <li class="list-group-item">
-                    <a href="{{ bera.link }}" target="_blank">{{ bera }}</a>
+                    <a href="{{ path('app_bera', {'id': bera.id}) }}" target="_blank">{{ bera }}</a>
                 </li>
             {% else %}
                 Pas de BERA.
