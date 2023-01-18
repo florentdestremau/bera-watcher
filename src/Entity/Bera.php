@@ -52,7 +52,7 @@ class Bera
 
     public function __toString(): string
     {
-        return sprintf('%s %s', $this->mountain->value, $this->date->format('Y-m-d'));
+        return sprintf('%s %s', $this->mountain->value, $this->date->format('d/m/Y'));
     }
 
     public function getId(): ?int

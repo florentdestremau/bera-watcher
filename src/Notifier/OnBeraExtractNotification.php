@@ -36,15 +36,15 @@ Un nouveau BERA est disponible pour le massif **{$this->bera->getMountain()->val
 
 ![BERA](data:image/png;base64,{$crawler->filterXPath('//ImageCartoucheRisque/Content')->text()})
 
-### Résumé:
+**Résumé:**
 
 {$crawler->filterXPath('//RESUME')->text()}
 
-### Stabilité:
+**Stabilité:**
 
 {$crawler->filterXPath('//STABILITE/TEXTE')->text()}
 
-### Qualité:
+**Qualité:**
 
 {$crawler->filterXPath('//QUALITE/TEXTE')->text()}
 
