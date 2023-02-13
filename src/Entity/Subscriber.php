@@ -7,6 +7,7 @@ use App\Model\Weekday;
 use App\Repository\SubscriberRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Notifier\Recipient\EmailRecipientInterface;
 
@@ -15,6 +16,8 @@ use Symfony\Component\Notifier\Recipient\EmailRecipientInterface;
 #[UniqueEntity('email', message: 'Cette adresse est déjà utilisée')]
 class Subscriber implements EmailRecipientInterface
 {
+    use TimestampableEntity;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
