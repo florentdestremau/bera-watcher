@@ -21,9 +21,9 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build and push 
-        uses: isbang/compose-action@v1.5.1
+      - name: Build and push
+        uses: docker/build-push-action@v5
         with:
-          compose-file: |
-            compose.yaml
-            compose.prod.yaml
+          push: true
+          tags: florentdestremau/bera-watcher:latest
+          target: frankenphp_prod
