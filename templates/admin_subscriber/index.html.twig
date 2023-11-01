@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Subscriber index{% endblock %}
+
+{% block body %}
+    <h1>Subscriber index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Email</th>
+                <th>Mountains</th>
+                <th>Weekdays</th>
+                <th>CreatedAt</th>
+                <th>UpdatedAt</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for subscriber in subscribers %}
+            <tr>
+                <td>{{ subscriber.id }}</td>
+                <td>{{ subscriber.email }}</td>
+                <td>{{ subscriber.mountains|map(m => m.value)|join(', ') }}</td>
+                <td>{{ subscriber.weekdays|map(m => m.value)|join(', ') }}</td>
+                <td>{{ subscriber.createdAt ? subscriber.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ subscriber.updatedAt ? subscriber.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('app_admin_subscriber_show', {'id': subscriber.id}) }}">show</a>
+                    <a href="{{ path('app_admin_subscriber_edit', {'id': subscriber.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="9">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_admin_subscriber_new') }}">Create new</a>
+{% endblock %}

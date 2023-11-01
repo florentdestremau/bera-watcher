@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Subscriber{% endblock %}
+
+{% block body %}
+    <h1>Subscriber</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ subscriber.id }}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>{{ subscriber.email }}</td>
+            </tr>
+            <tr>
+                <th>Mountains</th>
+                <td>{{ subscriber.mountains|map(m => m.value)|join(', ') }}</td>
+            </tr>
+            <tr>
+                <th>Weekdays</th>
+                <td>{{ subscriber.weekdays|map(m => m.value)|join(', ') }}</td>
+            </tr>
+            <tr>
+                <th>Token</th>
+                <td>{{ subscriber.token }}</td>
+            </tr>
+            <tr>
+                <th>EditLink</th>
+                <td>{{ subscriber.editLink }}</td>
+            </tr>
+            <tr>
+                <th>CreatedAt</th>
+                <td>{{ subscriber.createdAt ? subscriber.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>UpdatedAt</th>
+                <td>{{ subscriber.updatedAt ? subscriber.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_admin_subscriber_index') }}">back to list</a>
+
+    <a href="{{ path('app_admin_subscriber_edit', {'id': subscriber.id}) }}">edit</a>
+
+    {{ include('admin_subscriber/_delete_form.html.twig') }}
+{% endblock %}
