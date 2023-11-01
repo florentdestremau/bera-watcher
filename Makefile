@@ -32,6 +32,12 @@ down: ## Stop the docker hub
 logs: ## Show live logs
 	@$(DOCKER_COMP) logs --tail=0 --follow
 
+build_prod: ## Push the images to the registry
+	docker compose -f compose.prod.yaml build
+
+push_prod: ## Push the images to the registry
+	docker push ghcr.io/florentdestremau/bera-watch:latest
+
 sh: ## Connect to the PHP FPM container
 	@$(PHP_CONT) sh
 

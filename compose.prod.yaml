@@ -6,6 +6,7 @@ services:
     build:
       context: .
       target: frankenphp_prod
+    image: ghcr.io/florentdestremau/bera-watch
     environment:
       APP_SECRET: ${APP_SECRET}
       MERCURE_PUBLISHER_JWT_KEY: ${CADDY_MERCURE_JWT_SECRET}

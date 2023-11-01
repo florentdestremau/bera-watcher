@@ -34,5 +34,5 @@ services:
 ###> symfony/mailer ###
   mailer:
     image: maildev/maildev
-    ports: ["1025", "1080:1080"]
+    ports: ["1025", "1080"]
 ###< symfony/mailer ###
