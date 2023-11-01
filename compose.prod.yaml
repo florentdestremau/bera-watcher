@@ -6,7 +6,7 @@ services:
     build:
       context: .
       target: frankenphp_prod
-    image: ghcr.io/florentdestremau/bera-watch
+    image: ghcr.io/florentdestremau/bera-watcher
     restart: always
     environment:
       APP_SECRET: ${APP_SECRET}
