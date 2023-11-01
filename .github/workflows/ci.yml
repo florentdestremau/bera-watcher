@@ -22,6 +22,12 @@ jobs:
       -
         name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
       -
         name: Build Docker images
         uses: docker/bake-action@v4
@@ -29,7 +35,8 @@ jobs:
           pull: true
           load: true
           files: |
-            compose.prod.yaml
+            compose.yaml
+            compose.override.yaml
           set: |
             *.cache-from=type=gha,scope=${{github.ref}}
             *.cache-from=type=gha,scope=refs/heads/main

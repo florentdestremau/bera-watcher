@@ -2,7 +2,7 @@ version: "3.4"
 
 services:
   php:
-    image: ${IMAGES_PREFIX:-}app-php
+    image: ghcr.io/florentdestremau/bera-watch-dev
     restart: unless-stopped
     environment:
       SERVER_NAME: ${SERVER_NAME:-localhost}, php:80
