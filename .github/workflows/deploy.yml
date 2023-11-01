@@ -28,4 +28,4 @@ jobs:
             *.cache-to=type=gha,scope=${{github.ref}},mode=max
 
       - name: Push Docker images
-        run: docker push
+        run: docker push ghcr.io/florentdestremau/bera-watch:latest
