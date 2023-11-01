@@ -39,4 +39,4 @@ jobs:
           if_key_exists: fail
 
       - name: Deploy on server
-        run: deploy.sh
+        run: ./deploy.sh
