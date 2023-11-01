@@ -25,5 +25,5 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           push: true
-          tags: florentdestremau/bera-watcher:latest
+          tags: ghcr.io/florentdestremau/bera-watcher:latest
           target: frankenphp_prod
