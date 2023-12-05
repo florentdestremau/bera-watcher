@@ -25,12 +25,17 @@ class OnBeraExtractNotification extends Notification implements EmailNotificatio
     {
         $crawler = new Crawler($this->bera->getXml());
         $mountain = $this->bera->getMountain();
-        $risk = $crawler->filterXPath('//RISQUE')->extract(['RISQUEMAXI'])[0];
-        $comment = $crawler->filterXPath('//RISQUE')->extract(['COMMENTAIRE'])[0];
-        $summary = $crawler->filterXPath('//RESUME')->text('', false);
-        $stability = $crawler->filterXPath('//STABILITE/TEXTE')->text('', false);
-        $quality = $crawler->filterXPath('//QUALITE/TEXTE')->text('', false);
-        $image64 = $crawler->filterXPath('//ImageCartoucheRisque/Content')->text();
+
+        try {
+            $risk = $crawler->filterXPath('//RISQUE')->extract(['RISQUEMAXI'])[0] ?? 'N/A';
+            $comment = $crawler->filterXPath('//RISQUE')->extract(['COMMENTAIRE'])[0] ?? 'N/A';
+            $summary = $crawler->filterXPath('//RESUME')->text('', false);
+            $stability = $crawler->filterXPath('//STABILITE/TEXTE')->text('', false);
+            $quality = $crawler->filterXPath('//QUALITE/TEXTE')->text('', false);
+            $image64 = $crawler->filterXPath('//ImageCartoucheRisque/Content')->text();
+        } catch (\Exception $e) {
+            return null;
+        }
 
         $email = (new NotificationEmail())
             ->markAsPublic()
@@ -41,7 +46,7 @@ class OnBeraExtractNotification extends Notification implements EmailNotificatio
                 <<<EOT
 Bonjour,
 
-Un nouveau BERA est disponible pour le massif **{$mountain->value}**. 
+Un nouveau BERA est disponible pour le massif **{$mountain->value}**.
 
 Risque maximal: {$risk}.
 
