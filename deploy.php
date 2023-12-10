@@ -41,5 +41,5 @@ before('deploy:publish', 'deploy:migrations');
 after('deploy:success', 'crontab:sync');
 
 add('crontab:jobs', [
-    '*/15 * * * * cd {{current_path}} && {{bin/php}} bin/console app:extract-daily-beras >> app/var/log/prod.log 2>&1',
+    '*/15 * * * * cd {{current_path}} && {{bin/php}} bin/console app:extract-daily-beras >> var/log/prod.log 2>&1',
 ]);
