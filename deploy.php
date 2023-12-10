@@ -20,7 +20,6 @@ set('php_version', '8.2');
 set('db_type', 'postgresql');
 set('db_name', 'app');
 set('db_user', 'app');
-set('db_password', 'eSfK86aVUMJ4jg5XDk3NLv');
 set('ssh_copy_id', '~/.ssh/id_ed25519.pub');
 
 // Hosts
