@@ -21,7 +21,7 @@ class BeraCreatorService
             $hash,
             $pdfLink,
             $xmlLink,
-            file_get_contents($xmlLink),
+            'no_xml_data',
         );
     }
 }

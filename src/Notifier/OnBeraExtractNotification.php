@@ -23,47 +23,18 @@ class OnBeraExtractNotification extends Notification implements EmailNotificatio
 
     public function asEmailMessage(EmailRecipientInterface|Subscriber $recipient, string $transport = null): ?EmailMessage
     {
-        $crawler = new Crawler($this->bera->getXml());
         $mountain = $this->bera->getMountain();
 
-        try {
-            $risk = $crawler->filterXPath('//RISQUE')->extract(['RISQUEMAXI'])[0] ?? 'N/A';
-            $comment = $crawler->filterXPath('//RISQUE')->extract(['COMMENTAIRE'])[0] ?? 'N/A';
-            $summary = $crawler->filterXPath('//RESUME')->text('', false);
-            $stability = $crawler->filterXPath('//STABILITE/TEXTE')->text('', false);
-            $quality = $crawler->filterXPath('//QUALITE/TEXTE')->text('', false);
-            $image64 = $crawler->filterXPath('//ImageCartoucheRisque/Content')->text();
-        } catch (\Exception $e) {
-            return null;
-        }
 
         $email = (new NotificationEmail())
             ->markAsPublic()
             ->to(new Address($recipient->getEmail()))
-            ->subject("BERA: risque $risk pour $this->bera")
-            ->addPart((new DataPart(base64_decode($image64), 'risque.png'))->asInline())
+            ->subject("Nouveau BERA $this->bera")
             ->markdown(
                 <<<EOT
 Bonjour,
 
 Un nouveau BERA est disponible pour le massif **{$mountain->value}**.
-
-Risque maximal: {$risk}.
-
-![$comment](cid:risque.png)
-
-**Résumé:**
-
-$summary
-
-**Stabilité:**
-
-$stability
-
-**Neige:**
-
-$quality
-
 ---
 
 *Vous pouvez éditez vos préférences [ici]({$recipient->getEditLink()}).*
