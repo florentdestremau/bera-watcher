@@ -7,3 +7,9 @@ monolog:
             path: "%kernel.logs_dir%/%kernel.environment%.log"
             level: debug
             channels: [ "!event" ]
+
+when@prod:
+    monolog:
+        handlers:
+            main:
+                level: error
